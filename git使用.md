@@ -93,13 +93,15 @@ $ git init
 
 #### 上传到github
 
-$ ssh-keygen -t rsa //生成SSH密钥
+ssh-keygen -t rsa -C "yourmail@youremail.com.cn" //生成SSH密钥
+
+github 新建仓库 
 
 github 配置SSH keys信息 把公钥id_rsa.pub的内容添加到 GitHub
 
-github 新建仓	库
-
-git remote add origin git@github.com:Sinmeow/test.git  //关联远程仓库 
+```
+git remote add origin git@github.com:GitHub账号名/git仓库名.git //关联远程仓库 
+```
 
 git push origin 本地分支名:远程仓库分支名 //上传远程仓库
 
