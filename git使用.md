@@ -93,17 +93,28 @@ $ git init
 
 #### 上传到github
 
+```
 ssh-keygen -t rsa -C "yourmail@youremail.com.cn" //生成SSH密钥
 
 github 新建仓库 
 
 github 配置SSH keys信息 把公钥id_rsa.pub的内容添加到 GitHub
+```
 
 ```
 git remote add origin git@github.com:GitHub账号名/git仓库名.git //关联远程仓库 
 ```
 
+```
 git push origin 本地分支名:远程仓库分支名 //上传远程仓库
+```
+
+```
+# 由于新建的远程仓库是空的，所以要加上-u这个参数，等远程仓库里面有了内容之后，
+git push -u origin master
+#下次再从本地库上传内容的时候只需下面这样就可以了：
+git push  origin master
+```
 
 #### 分支
 
