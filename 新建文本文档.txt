@@ -1,0 +1,4 @@
+G:\CodeNvm\node
+
+npm config set prefix "G:\CodeNvm\node\node_global"
+npm config set cache "G:\CodeNvm\node\node_cache"
