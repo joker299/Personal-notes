@@ -32,7 +32,7 @@ Xcode是Apple官方IDE，功能非常强大，是开发Mac和iOS App的必选装
 
 #### Windows系统：
 
-在Windows上使用Git，可以从Git官网直接[下载安装程序](https://git-scm.com/downloads)，然后按默认选项安装即可。
+在Windows上使用Git，可以从Git官网直接下载 https://git-scm.com/downloads，然后按默认选项安装即可。
 
 安装完成后，在开始菜单里找到“Git”->“Git Bash”，蹦出一个类似命令行窗口的东西，就说明Git安装成功！
 
@@ -49,7 +49,7 @@ $ git config --global user.email "email@example.com"
 
 ### 二：git命令操作
 
-#### 创建本地仓库
+#### 第一步：创建本地仓库
 
 创建一个版本库非常简单，首先，选择一个合适的地方，创建一个文件夹，并在文件夹中右键菜单中选择用gitBush打开：
 
@@ -57,20 +57,48 @@ $ git config --global user.email "email@example.com"
 $ git init
 ```
 
+或者直接用命令创建，在windows开始菜单中打开GitBush：
+
+```
+$ mkdir runoob //创建runoob文件夹
+$ cd runoob/   //进入到文件夹根目录中
+$ git init     //初始化git仓库
+```
+
 如果你没有看到`.git`目录，那是因为这个目录默认是隐藏的，用`ls -ah`命令就可以看见。
 
 **注:**如果你使用Windows系统，为了避免遇到各种莫名其妙的问题，请确保目录名（包括父目录）不包含中文。
+
+#### 第二步：创建远程仓库
 
 #### 提交文件
 
 |               指令                |                             说明                             |
 | :-------------------------------: | :----------------------------------------------------------: |
-|          git add 文件名           |                将文件添加到暂存区(git管理区)                 |
-|    git commit -m "注释的内容"     |                       将文件提交到仓库                       |
-| git commit -a -m "提交的描述信息" | -a 选项可只将所有被修改或者已删除的且已经被git管理的文档提交倒仓库中。 |
+|          git add 文件名           |               将文件添加到缓存存区(git管理区)                |
+|            git add *.c            |                 将以.c结尾的文件提交到缓存区                 |
 |             git add .             | 除了能够判断出当前目录（包括其子目录）所有被修改或者已删除的文档，还能判断用户所添加的新文档，并将其信息追加到索引中。 |
-|            git status             |                    查看是否还有文件未提交                    |
+|     git commit -m "注释内容"      |                   将被追踪的文件提交到仓库                   |
+| git commit -a -m "提交的描述信息" | -a 选项可只将所有被修改或者已删除的且已经被git管理的文档提交倒仓库中。 |
+|            git status             |               查看是否还有文件未提交，详细显示               |
+|           git status -s           |               查看是否还有文件未提交，简短显示               |
 |          git diff 文件名          |                      查看修改的详细内容                      |
+|             git diff              |                      查看尚未缓存的改动                      |
+|         git diff --cached         |                       查看已缓存的改动                       |
+|          git diff --stat          |                       显示摘要而非整个                       |
+|      git reset HEAD "文件名"      |                     用于取消已缓存的内容                     |
+
+#### 下载文件
+
+|                             指令                             |                   描述                   |
+| :----------------------------------------------------------: | :--------------------------------------: |
+|                    git pull origin master                    |            从远程仓库拉取文件            |
+| git fetch origin(别名)  分支名(可选项，不填写则拉取全部，填写则拉取对应分支) |             拉取远程分支命令             |
+|    git remote add origin(这个远程仓库的别名) 远程仓库路径    |            和远程仓库建立连接            |
+|                       git clone <repo>                       | 从现有的git仓库中拷贝项目，repo为git仓库 |
+|                 git clone <repo> <directory>                 |   拷贝到指定目录，directory为本地目录    |
+
+
 
 #### 版本回退
 
@@ -79,11 +107,45 @@ $ git init
 |          git log          |                   显示所有提交过的版本信息                   |
 | git log --pretty=oneline  |                       将日志显示在一行                       |
 |        git reflog         | 查看所有分支的所有操作记录（包括已经被删除的 commit 记录和 reset 的操作） |
-|  git reset --hard HEAD^   |           退回到上个版本内容 有个^就代表上一个版本           |
+|  git reset --hard HEAD^   |          退回到上个版本内容 有个 ^ 就代表上一个版本          |
 | git reset --hard HEAD~100 |                     退回到一百个版本之前                     |
 |  git reset --hard 版本号  |                        退回到目标版本                        |
 
 #### **Git撤销修改和删除文件操作**
+
+如果只是简单地从工作目录中手工删除文件，运行 **git status** 时就会在 **Changes not staged for commit** 的提示。
+
+要从 Git 中移除某个文件，就必须要从已跟踪文件清单中移除，然后提交。可以用以下命令完成此项工作：
+
+```
+git rm <file>
+```
+
+如果删除之前修改过并且已经放到暂存区域的话，则必须要用强制删除选项 **-f**
+
+```
+git rm -f <file>
+```
+
+如果把文件从暂存区域移除，但仍然希望保留在当前工作目录中，换句话说，仅是从跟踪清单中删除，使用 **--cached** 选项即可：
+
+```
+git rm --cached <file>
+```
+
+如果后面跟的是一个目录做为参数，则会递归删除整个目录中的所有子目录和文件：
+
+```
+git rm –r *   //*表示所有文件，也可以替换成目录文件
+```
+
+git mv 命令用于移动或重命名一个文件、目录、软连接。
+
+```
+ git mv README  README.md  //将README，改为README.md文件
+```
+
+
 
 |               指令                |                             描述                             |
 | :-------------------------------: | :----------------------------------------------------------: |
@@ -91,7 +153,7 @@ $ git init
 |             rm 文件名             |                 删除文件需要在commit提交修改                 |
 | find . -name ".git"\|xargs rm -Rf |                      恢复删除掉的文件库                      |
 
-#### 上传到github
+#### 上传到gitHub
 
 ```
 ssh-keygen -t rsa -C "yourmail@youremail.com.cn" //生成SSH密钥
